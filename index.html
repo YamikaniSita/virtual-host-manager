@@ -94,4 +94,27 @@
 		var l='http://localhost/virtualhost/conf.php?domName='+domName+'&dir='+dir;
 		reqCreate.open("GET", l);
 		reqCreate.send(null);
-		reqCreate
+		reqCreate.addEventListener('load', function(){
+			var res=reqCreate.responseText;
+			if(res==='1'){
+			er1.style.display='block';
+		}
+		else if(res==='2'){
+			er2.style.display='block';
+			textToAppend(domName);
+		}
+		else if(res==='3'){
+			success.style.display='block';
+		}
+		else if(res==='4'){
+			document.getElementsByClassName('err-4')[0].style.display='block';
+		}
+		});
+		}
+		function textToAppend(w){
+			var d=document.getElementById('text');
+			d.innerHTML='append the following text to the end of the file "127.0.0.1      '+w+'.localhost" save the file then visit '+w+'.localhost to test...You might need to restart XAMPP before the virtual host can point to the specified directory';
+		}
+</script>
+</body>
+</html>
