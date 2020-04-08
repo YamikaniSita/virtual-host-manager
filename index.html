@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Virtual Host Manager</title>
+	<link rel="stylesheet" type="text/css" href="lib/w3css/w3.css">
+	<script type="text/javascript" src="lib/vendor/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="js/sweetalert.min.js"></script>
+	<style>
+		h1{
+			text-align: center;
+			font-family: verdana;
+			border-top: 2px solid grey;
+			border-bottom: 2px solid grey;
+			width: 30%;
+			left: 35%;
+			position: relative;
+			}
+		p{	
+			text-align: center;
+			width: 40%;
+			position: relative;
+			left: 30%;
+			font-family: cambria;
+			padding: 2px;
+			}
+		.configure{
+			font-family: candara;
+		}
+		#test{
+			display: no;
+		}
+		#res{
+			color: white;
+			font-size: 2em;
+			}
+		.err-1{
+			display: none;
+		}
+		.err-2{
+			display: none;
+		}
+		.err-4{
+			display: none;
+			}
+		.success{
+			display: none;
+		}
+		#test{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<nav>
+		<ul class="w3-navbar w3-green">
+			<li class="nav-item active w3-padding-16"><a href="http://localhost/dashboard">Apache Dashboard</a></li
+		</ul>
+	</nav>
+	<div class='about'>
+		<h1>About Virtual Host</h1>
+			<p>Apache makes it easy to have multiple websites or web applications running on the same physical server, and access each using a custom domain name. This is known as virtual hosting, and each virtual host can be mapped to a different subdirectory of the server.</p>
+			<p>This feature is especially useful in development scenarios, as it allows developers to isolate and access different applications using unique domain names. For example, the domains http://app01.localhost and http://app02.localhost could point to two separate applications on the same server. Or, you could create separate domains, such as http://client1/, http://client2/ and so on, for multiple client websites hosted on the same server.</p>
+			<p>This feature removes the need for manual configuration making it easier and faster to create a virtual. For everything to work to work smoothly you will need to run in administrator mode.</p>
+	</div>
+	<div class='configure'>
+		<h1>Configure Virtual Host</h1>
+		<form>
+		<table>
+			<tr><td><label>Domain Name-This will be used as the domain name</label></td><td><input type='text' name='domName'></td></tr>
+			<tr><td><label>Directory/folder where the virtual domain should point to. Must be in htdocs folder</label></td><td><input type='text' name='dir'></td></tr></table>
+			<a href='#' id='btn'><div class="w3-btn btn btn-outline-info" onclick="$('#res').show()">Create Host</div></a>
+		</form>
+		<div id='res' class='w3-modal'>
+			<span class='close' onclick="$('#res').hide()">Close</span>
+			<span class='err-1'>Error: Creating of the virtual host failed, you dont have the permission to write to the file at 'C:\xampp\apache\conf\extra\httpd-vhosts.conf' Change permissions and try again</span>
+			<span class='err-2'>Error: Creating of the virtual host partially failed, you dont have the permission to write to the file at 'C:\Windows\System32\drivers\etc\hosts' <span id='text'></span></span>
+			<span class='success'>Successfully created..You might need to restart XAMPP before the virtual host can point to the specified directory</span>
+			<span class='err-4'>Parameters not set</span>
+		</div>
+	</div>
+	<script>
+	var er1=document.getElementsByClassName('err-1')[0];
+	var er2=document.getElementsByClassName('err-2')[0];
+	var er4=document.getElementsByClassName('err-4')[0];
+	var suc=document.getElementsByClassName('success')[0];
+	var t=document.getElementById('btn');
+	t.addEventListener('click', function(){
+		submit();
+	});
+	function submit(){
+		var domName=document.getElementsByTagName('input')[0].value;
+		var dir=document.getElementsByTagName('input')[1].value;
+		var reqCreate=new XMLHttpRequest();
+		var l='http://localhost/virtualhost/conf.php?domName='+domName+'&dir='+dir;
+		reqCreate.open("GET", l);
+		reqCreate.send(null);
+		reqCreate
